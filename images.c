@@ -1,3 +1,7 @@
+//Authors: Cory Coker / Jack Jelinek
+//Date Due: 5/7/2024
+//Purpose: Final Project - To convert a file wiht numbers into an image, and edit the image in multiple ways
+
 #include <stdio.h>
 
 #define MAX_ROWS 12
@@ -11,7 +15,7 @@ char brightnessToChar(int brightness) {
         case 2: return 'o';
         case 3: return 'O';
         case 4: return '0';
-        default: return ' '; // Default to space for unknown brightness values
+        default: return ' ';
     }
 }
 
@@ -23,7 +27,7 @@ int charToBrightness(char character) {
         case 'o': return 2;
         case 'O': return 3;
         case '0': return 4;
-        default: return 0; // Default to 0 for unknown characters
+        default: return 0;
     }
 }
 
@@ -160,7 +164,7 @@ void saveImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols) {
         return;
     }
 
-    // Convert characters back to numerical brightness values before saving
+    // Convert characters back to number brightness values before saving
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int brightness = charToBrightness(image[i][j]);
