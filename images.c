@@ -6,6 +6,44 @@
 
 #define MAX_ROWS 12
 #define MAX_COLS 21
+void loadNewImage(char image[MAX_ROWS][MAX_COLS], int *rows, int *cols);
+void displayCurrentImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols);
+void editImage(char image[MAX_ROWS][MAX_COLS], int *rows, int *cols);
+
+
+int main() {
+    char image[MAX_ROWS][MAX_COLS];
+    int rows = 0, cols = 0;
+    int choice;
+
+    do {
+	printf("1: Load image\n");
+	printf("2: Display image\n");
+	printf("3: Edit image\n");
+	printf("0: Exit\n");
+	printf("\nChoose from one of the options above: ");
+	scanf("%d", &choice);
+
+	switch (choice) {
+	case 1:
+                loadNewImage(image, &rows, &cols);
+                break;	
+	case 2:
+                displayCurrentImage(image, rows, cols);
+                break;
+	case 3:
+                editImage(image, &rows, &cols);
+                break;
+	case 0:
+                printf("Exiting program.\n");
+                break;
+	default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+
+    return 0;
+}
 
 // Function to map brightness values to corresponding characters
 char brightnessToChar(int brightness) {
@@ -92,10 +130,14 @@ void dimImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols) {
                 image[i][j] = 'O';
         }
     }
+    displayCurrentImage(image, rows, cols);
     printf("Image dimmed successfully!\n");
 }
 
 // Function to brighten the image
+char choice;
+char filename[100];
+FILE *file;
 void brightenImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -109,28 +151,36 @@ void brightenImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols) {
                 image[i][j] = '0';
         }
     }
+    displayCurrentImage(image, rows, cols);
     printf("Image brightened successfully!\n");
+    printf("Save Image? Y/N\n");
+    switch (choice)
+    	case 'Y':
+    		printf("What do you want to name the image file? (include the extension)")
+    		
+    	if (choice == 'N' || choice == 'n');
+    	
 }
 
 // Function to crop the image
 void cropImage(char image[MAX_ROWS][MAX_COLS], int *rows, int *cols) {
-    int newLeft, newRight, newTop, newBottom;
-    printf("The image you want to crop is %d x %d.\n", *rows, *cols);
-    printf("The row and column values start in the upper lefthand corner.\n\n");
-    printf("Which column do you want to be the new left side? ");
-    scanf("%d", &newLeft);
-    printf("\nWhich column do you want to be the new right side? ");
-    scanf("%d", &newRight);
-    printf("\nWhich row do you want to be the new top? ");
-    scanf("%d", &newTop);
-    printf("\nWhich row do you want to be the new bottom? ");
-    scanf("%d", &newBottom);
+	int newLeft, newRight, newTop, newBottom;
+	printf("The image you want to crop is %d x %d.\n", *rows, *cols);
+ 	printf("The row and column values start in the upper lefthand corner.\n\n");
+	printf("Which column do you want to be the new left side? ");
+	scanf("%d", &newLeft);
+	printf("\nWhich column do you want to be the new right side? ");
+	scanf("%d", &newRight);
+	printf("\nWhich row do you want to be the new top? ");
+	scanf("%d", &newTop);
+	printf("\nWhich row do you want to be the new bottom? ");
+	scanf("%d", &newBottom);
 
     // Validate input
-    if (newLeft < 1 || newRight > *cols || newTop < 1 || newBottom > *rows ||
-        newLeft > newRight || newTop > newBottom) {
-        printf("Invalid crop dimensions.\n");
-        return;
+	if (newLeft < 1 || newRight > *cols || newTop < 1 || newBottom > *rows ||
+		newLeft > newRight || newTop > newBottom) {
+		printf("Invalid crop dimensions.\n");
+		return;
     }
 
     // Update image and dimensions
@@ -181,69 +231,37 @@ void saveImage(char image[MAX_ROWS][MAX_COLS], int rows, int cols) {
 void editImage(char image[MAX_ROWS][MAX_COLS], int *rows, int *cols) {
     int choice;
     do {
-        printf("\n**EDIT IMAGE**\n");
-        printf("1: Dim image\n");
-        printf("2: Brighten image\n");
-        printf("3: Crop image\n");
-        printf("4: Save image\n");
-        printf("0: Exit editing\n");
-        printf("\nChoose from one of the options above: ");
-        scanf("%d", &choice);
+	printf("\n**EDIT IMAGE**\n");
+	printf("1: Dim image\n");
+	printf("2: Brighten image\n");
+	printf("3: Crop image\n");
+	printf("4: Save image\n");
+	printf("0: Exit editing\n");
+	printf("\nChoose from one of the options above: ");
+	scanf("%d", &choice);
 
-        switch (choice) {
-            case 1:
-                dimImage(image, *rows, *cols);
-                break;
-            case 2:
-                brightenImage(image, *rows, *cols);
-                break;
-            case 3:
-                cropImage(image, rows, cols);
-                break;
-            case 4:
+	switch (choice) {
+	case 1:
+		dimImage(image, *rows, *cols);
+		break;
+	case 2:
+		brightenImage(image, *rows, *cols);
+		break;
+	case 3:
+		cropImage(image, rows, cols);
+		break;
+	case 4:
                 saveImage(image, *rows, *cols);
                 break;
-            case 0:
-                printf("Exiting editing mode.\n");
-                break;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
+	case 0:
+		printf("Exiting editing mode.\n");
+		break;
+	default:
+		printf("Invalid choice. Please try again.\n");
+	}
     } while (choice != 0);
 }
 
-int main() {
-    char image[MAX_ROWS][MAX_COLS];
-    int rows = 0, cols = 0;
-    int choice;
 
-    do {
-        printf("\n**ERINSTAGRAM**\n");
-        printf("1: Load image\n");
-        printf("2: Display image\n");
-        printf("3: Edit image\n");
-        printf("0: Exit\n");
-        printf("\nChoose from one of the options above: ");
-        scanf("%d", &choice);
 
-        switch (choice) {
-            case 1:
-                loadNewImage(image, &rows, &cols);
-                break;
-            case 2:
-                displayCurrentImage(image, rows, cols);
-                break;
-            case 3:
-                editImage(image, &rows, &cols);
-                break;
-            case 0:
-                printf("Exiting program.\n");
-                break;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
-    } while (choice != 0);
-
-    return 0;
-}
 
